@@ -43,15 +43,15 @@ const enterNumber = async () => {
             resolve({
                 randomNumber,
                 message: 'You almost guessed it'
-            })
+            });
         } else {
             resolve({
                 randomNumber,
                 message: 'Better luck next time'
-            })
+            });
         }
-    })
-}
+    });
+};
 
 const continueGame = async () => {
     return await new Promise(resolve => {
@@ -60,7 +60,7 @@ const continueGame = async () => {
         } else {
             resolve(alert('See you!'));
         }
-    })
-}
+    });
+};
 
 start();
