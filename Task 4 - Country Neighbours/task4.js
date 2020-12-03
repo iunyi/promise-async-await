@@ -1,15 +1,24 @@
-// Task 4: get the neigher countries of Columbia
+// Neighbour countries of Colombia
 
-const fetchCountry = async (alpha3Code) => {
+const findNeighbourCountries = async (threeLetterCountryCode) => {
+  const country = await fetchCountry(threeLetterCountryCode);
+
+  const neighbours = await Promise.all(country.borders.map(neighbour => fetchCountry(neighbour)));
+
+  console.log(neighbours)
+}
+
+const fetchCountry = async (threeLetterCountryCode) =>  {
   try {
-    const res = await fetch(
-      `https://restcountries.eu/rest/v2/alpha/${alpha3Code}`
-    );
+    const response = await fetch(`https://restcountries.eu/rest/v2/alpha/${threeLetterCountryCode}`);
 
-    const data = await res.json();
+    const country = await response.json();
 
-    return data;
+    return country
+    
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
+
+findNeighbourCountries('col');
