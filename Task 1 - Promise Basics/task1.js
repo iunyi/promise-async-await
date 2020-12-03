@@ -5,10 +5,10 @@ Either way, we're still going to have a party.
 */
 
 const onMyBirthday = (isKayoSick) => {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
             if(!isKayoSick) {
-                resolve(2)
+                resolve(2);
             } else {
                 reject(new Error('I am sad'));
             }
@@ -20,9 +20,9 @@ onMyBirthday(false)
     .then((result) => {
         console.log(`I have ${result} cakes`)
     })
-    .catch(error => {
+    .catch((error) => {
         console.log(error);
     })
     .finally(() => {
         console.log('Party')
-    })
+    });
