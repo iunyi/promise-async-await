@@ -6,67 +6,61 @@
 - User can decide to play the game as long as they want to
 */
 
-const enterNumber = () => {
-    return new Promise((resolve, reject) => {
+const start = async () => {
+    try {
+        const result = await enterNumber();
+        alert(`Dice: ${result.randomNumber} - ${result.message}`);
+        continueGame();
+
+    } catch (error) {
+        alert(error);
+        if (error === 'Wrong type input') {
+            continueGame();
+        }
+    }
+};
+
+const enterNumber = async () => {
+    return await new Promise((resolve, reject) => {
         const userNumber = Number(window.prompt('Enter a number (1-6)'));
         const randomNumber = Math.floor(Math.random() * 6 + 1);
-    
-        if(isNaN(userNumber)) {
-            reject(new Error('Wrong input type'));
-        }
 
-        if (randomNumber === userNumber) {
+        // Reject
+        if (isNaN(userNumber)) {
+            reject('Wrong type input');
+        } else if (!userNumber) {
+            reject('Cancelled game');
+            
+        // Resolve
+        } else if (userNumber === randomNumber) {
             resolve({
                 randomNumber,
-                gameResult: 'You guessed it!'
-            })
-        } else if (randomNumber === userNumber - 1 || randomNumber === userNumber + 1) {
+                message: 'You guessed it!'
+            });
+        } else if (
+            userNumber === randomNumber + 1 || 
+            userNumber === randomNumber - 1) {
             resolve({
                 randomNumber,
-                gameResult: 'You almost guessed it'
+                message: 'You almost guessed it'
             })
         } else {
             resolve({
                 randomNumber,
-                gameResult: 'Better luck next time'
+                message: 'Better luck next time'
             })
         }
-    });
-};
-
-const start = () => {
-    handleGuess();
-};
-
-const handleGuess = async () => {
-    try {
-        const result = await enterNumber();
-        alert(`Dice: ${result.randomNumber} - ${result.gameResult}`);
-        tryAgain();
-
-    } catch(error) {
-        alert(error);
-        tryAgain();
-    }
-};
+    })
+}
 
 const continueGame = async () => {
-    return new Promise((resolve) => {
-        if (window.confirm('Feel like trying one more time?')) {
-            resolve(true);
-        } else{
-            resolve(false);
+    return await new Promise(resolve => {
+        if (window.confirm('Feel like trying again?')) {
+            resolve(start());
+        } else {
+            resolve(alert('See you!'));
         }
-    });
-};
-
-const tryAgain = async () => {
-    const isContinuing = await continueGame();
-    if(isContinuing) {
-        handleGuess();
-    } else {
-        alert('See you next time!');
-    }
+    })
 }
 
 start();
