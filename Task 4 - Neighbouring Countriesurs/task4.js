@@ -1,6 +1,6 @@
-// Neighbour countries of Colombia
+// Neighbouring countries of Colombia
 
-const findNeighbourCountries = async (threeLetterCountryCode) => {
+const findNeighbouringCountries = async (threeLetterCountryCode) => {
   const country = await fetchCountry(threeLetterCountryCode);
 
   const neighbours = await Promise.all(country.borders.map(neighbour => fetchCountry(neighbour)));
@@ -15,10 +15,10 @@ const fetchCountry = async (threeLetterCountryCode) =>  {
     const country = await response.json();
 
     return country
-    
+
   } catch (error) {
     console.log(error)
   }
 }
 
-findNeighbourCountries('col');
+findNeighbouringCountries('col');
